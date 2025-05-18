@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.recursiveMind.WareHouseRecordManagement.controller.ProductController"
+      spacing="10" styleClass="content-area">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Product Management" styleClass="header-label"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="searchField" promptText="Search products..." prefWidth="300"/>
+    </HBox>
+
+    <SplitPane VBox.vgrow="ALWAYS" dividerPositions="0.6">
+        <!-- Left side - Product Table -->
+        <VBox spacing="10">
+            <TableView fx:id="productTable" VBox.vgrow="ALWAYS" onMouseClicked="#handleTableSelection">
+                <columns>
+                    <TableColumn fx:id="productCodeColumn" text="Product Code" prefWidth="100"/>
+                    <TableColumn fx:id="nameColumn" text="Name" prefWidth="150"/>
+                    <TableColumn fx:id="categoryColumn" text="Category" prefWidth="100"/>
+                    <TableColumn fx:id="quantityColumn" text="Quantity" prefWidth="80"/>
+                    <TableColumn fx:id="priceColumn" text="Price" prefWidth="80"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Right side - Product Details Form -->
+        <VBox spacing="10">
+            <GridPane vgap="10" hgap="10">
+                <Label text="Product Code:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="productCodeField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Name:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="nameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Category:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="categoryField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Quantity:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="quantityField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Label text="Price:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="priceField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                <Label text="Description:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextArea fx:id="descriptionField" prefRowCount="3" wrapText="true" 
+                         GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                <Label text="Min Stock:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <TextField fx:id="minStockField" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                <Label text="Max Stock:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <TextField fx:id="maxStockField" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+                <Label text="SKU:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                <TextField fx:id="skuField" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+                <Label text="Location:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+                <TextField fx:id="locationField" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Add" onAction="#handleAddProduct" styleClass="button-primary"/>
+                <Button text="Update" onAction="#handleUpdateProduct" styleClass="button-secondary"/>
+                <Button text="Delete" onAction="#handleDeleteProduct" styleClass="button-danger"/>
+            </HBox>
+        </VBox>
+    </SplitPane>
+</VBox> 
