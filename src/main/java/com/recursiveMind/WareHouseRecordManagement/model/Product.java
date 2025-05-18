@@ -2,6 +2,7 @@ package com.recursiveMind.WareHouseRecordManagement.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import javafx.beans.property.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -53,6 +54,40 @@ public class Product {
     
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+    
+    // JavaFX Properties
+    @Transient
+    private final StringProperty codeProperty = new SimpleStringProperty();
+    @Transient
+    private final StringProperty nameProperty = new SimpleStringProperty();
+    @Transient
+    private final IntegerProperty quantityProperty = new SimpleIntegerProperty();
+    @Transient
+    private final IntegerProperty minStockProperty = new SimpleIntegerProperty();
+    
+    @PostLoad
+    public void initializeProperties() {
+        codeProperty.set(productCode);
+        nameProperty.set(name);
+        quantityProperty.set(quantity);
+        minStockProperty.set(minStockLevel);
+    }
+    
+    public StringProperty codeProperty() {
+        return codeProperty;
+    }
+    
+    public StringProperty nameProperty() {
+        return nameProperty;
+    }
+    
+    public IntegerProperty quantityProperty() {
+        return quantityProperty;
+    }
+    
+    public IntegerProperty minStockProperty() {
+        return minStockProperty;
+    }
     
     @PrePersist
     protected void onCreate() {

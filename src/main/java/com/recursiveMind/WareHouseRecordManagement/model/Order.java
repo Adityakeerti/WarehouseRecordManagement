@@ -2,6 +2,7 @@ package com.recursiveMind.WareHouseRecordManagement.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import javafx.beans.property.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,40 @@ public class Order {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
+    // JavaFX Properties
+    @Transient
+    private final StringProperty idProperty = new SimpleStringProperty();
+    @Transient
+    private final StringProperty dateProperty = new SimpleStringProperty();
+    @Transient
+    private final StringProperty statusProperty = new SimpleStringProperty();
+    @Transient
+    private final DoubleProperty totalProperty = new SimpleDoubleProperty();
+    
+    @PostLoad
+    public void initializeProperties() {
+        idProperty.set(orderId);
+        dateProperty.set(orderDate.toString());
+        statusProperty.set(status.name());
+        totalProperty.set(totalAmount);
+    }
+    
+    public StringProperty idProperty() {
+        return idProperty;
+    }
+    
+    public StringProperty dateProperty() {
+        return dateProperty;
+    }
+    
+    public StringProperty statusProperty() {
+        return statusProperty;
+    }
+    
+    public DoubleProperty totalProperty() {
+        return totalProperty;
+    }
+    
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -85,5 +120,6 @@ public class Order {
         this.totalAmount = orderItems.stream()
             .mapToDouble(item -> item.getQuantity() * item.getUnitPrice())
             .sum();
+        totalProperty.set(totalAmount);
     }
 } 

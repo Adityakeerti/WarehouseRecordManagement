@@ -134,16 +134,20 @@ public class ProductController {
         Product selectedProduct = productTable.getSelectionModel().getSelectedItem();
         if (selectedProduct != null) {
             try {
-                selectedProduct.setName(nameField.getText());
-                selectedProduct.setCategory(categoryField.getText());
-                selectedProduct.setQuantity(Integer.parseInt(quantityField.getText()));
-                selectedProduct.setPrice(Double.parseDouble(priceField.getText()));
-                selectedProduct.setDescription(descriptionField.getText());
-                selectedProduct.setMinStockLevel(Integer.parseInt(minStockField.getText()));
-                selectedProduct.setMaxStockLevel(Integer.parseInt(maxStockField.getText()));
-                selectedProduct.setLocation(locationField.getText());
+                // Fetch the product from the DB to ensure it's managed
+                Product productToUpdate = productService.getProductById(selectedProduct.getId()).orElseThrow(() ->
+                    new RuntimeException("Product not found with id: " + selectedProduct.getId()));
 
-                productService.saveProduct(selectedProduct);
+                productToUpdate.setName(nameField.getText());
+                productToUpdate.setCategory(categoryField.getText());
+                productToUpdate.setQuantity(Integer.parseInt(quantityField.getText()));
+                productToUpdate.setPrice(Double.parseDouble(priceField.getText()));
+                productToUpdate.setDescription(descriptionField.getText());
+                productToUpdate.setMinStockLevel(Integer.parseInt(minStockField.getText()));
+                productToUpdate.setMaxStockLevel(Integer.parseInt(maxStockField.getText()));
+                productToUpdate.setLocation(locationField.getText());
+
+                productService.saveProduct(productToUpdate);
                 clearFields();
                 loadProducts();
                 showAlert("Success", "Product updated successfully!", Alert.AlertType.INFORMATION);

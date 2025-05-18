@@ -13,17 +13,20 @@
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Label text="Stock Movement Reports" styleClass="section-title"/>
+    <Label text="Activity Logs" styleClass="section-title"/>
 
-    <TableView fx:id="stockMovementTable" VBox.vgrow="ALWAYS">
+    <TableView fx:id="activityLogTable" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="dateColumn" text="Date" prefWidth="150"/>
-            <TableColumn fx:id="productColumn" text="Product" prefWidth="150"/>
-            <TableColumn fx:id="typeColumn" text="Type" prefWidth="100"/>
-            <TableColumn fx:id="quantityColumn" text="Quantity" prefWidth="100"/>
-            <TableColumn fx:id="referenceColumn" text="Reference" prefWidth="150"/>
+            <TableColumn fx:id="timestampColumn" text="Timestamp" prefWidth="160"/>
+            <TableColumn fx:id="actionColumn" text="Action" prefWidth="100"/>
+            <TableColumn fx:id="productCodeColumn" text="Product Code" prefWidth="120"/>
+            <TableColumn fx:id="productNameColumn" text="Product Name" prefWidth="150"/>
+            <TableColumn fx:id="detailsColumn" text="Details" prefWidth="200"/>
             <TableColumn fx:id="userColumn" text="User" prefWidth="120"/>
-            <TableColumn fx:id="notesColumn" text="Notes" prefWidth="200"/>
         </columns>
     </TableView>
+
+    <HBox alignment="CENTER_RIGHT">
+        <Button text="Export to Excel" onAction="#handleExportToExcel" styleClass="button-primary"/>
+    </HBox>
 </VBox> 

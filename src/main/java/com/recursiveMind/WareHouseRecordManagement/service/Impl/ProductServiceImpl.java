@@ -10,7 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import com.recursiveMind.WareHouseRecordManagement.repository.ActivityLogRepository;
+import com.recursiveMind.WareHouseRecordManagement.model.ActivityLog;
 
 @Service
 @Transactional
@@ -22,19 +27,52 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private StockMovementService stockMovementService;
 
+    @Autowired
+    private ActivityLogRepository activityLogRepository;
+
     @Override
     public Product saveProduct(Product product) {
         boolean isNew = (product.getId() == null);
-        Product saved = productRepository.save(product);
-        if (!isNew) { // Only log for updates, not for new products
-            StockMovement movement = StockMovement.builder()
-                .product(saved)
-                .type(StockMovement.MovementType.IN)
-                .quantity(saved.getQuantity())
-                .reference("Product Save")
-                .build();
-            stockMovementService.logMovement(movement);
+        Integer oldQuantity = null;
+        if (!isNew) {
+            oldQuantity = productRepository.findById(product.getId())
+                .map(Product::getQuantity)
+                .orElse(null);
         }
+        Product saved = productRepository.save(product);
+
+        // Defensive: Only log if product exists in DB and has a valid ID
+        if (!isNew && saved.getId() != null && oldQuantity != null && !oldQuantity.equals(saved.getQuantity())) {
+            if (productRepository.existsById(saved.getId())) {
+                // Fetch managed product entity
+                Product managedProduct = productRepository.findById(saved.getId()).orElseThrow();
+                System.out.println("Logging stock movement for product ID: " + managedProduct.getId());
+                StockMovement movement = StockMovement.builder()
+                    .product(managedProduct)
+                    .type(StockMovement.MovementType.ADJUST)
+                    .quantity(saved.getQuantity() - oldQuantity)
+                    .reference("Product Update")
+                    .performedBy(null) // Set user if required
+                    .build();
+                System.out.println("StockMovement: " + movement);
+                stockMovementService.logMovement(movement);
+            } else {
+                System.out.println("Product with ID " + saved.getId() + " does not exist in DB. Skipping stock movement log.");
+            }
+        }
+
+        // Log add or update action
+        String action = isNew ? "ADD" : "UPDATE";
+        String details = isNew ? "Product added" : "Product updated";
+        ActivityLog log = ActivityLog.builder()
+            .action(action)
+            .productCode(saved.getProductCode())
+            .productName(saved.getName())
+            .details(details)
+            .user(null) // Set user if available
+            .build();
+        activityLogRepository.save(log);
+
         return saved;
     }
 
@@ -85,7 +123,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+        Optional<Product> productOpt = productRepository.findById(id);
+        productOpt.ifPresent(product -> {
+            productRepository.deleteById(id);
+            // Log deletion
+            ActivityLog log = ActivityLog.builder()
+                .action("DELETE")
+                .productCode(product.getProductCode())
+                .productName(product.getName())
+                .details("Product deleted")
+                .user(null) // Set user if available
+                .build();
+            activityLogRepository.save(log);
+        });
         // Optionally log deletion as a stock movement
     }
 
@@ -152,5 +202,45 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void logStockMovement(StockMovement movement) {
         stockMovementService.logMovement(movement);
+    }
+
+    @Override
+    public long getTotalProducts() {
+        return productRepository.count();
+    }
+
+    @Override
+    public long getLowStockItemsCount() {
+        return productRepository.countLowStockProducts();
+    }
+
+    @Override
+    public double getTotalInventoryValue() {
+        return productRepository.findAll().stream()
+            .mapToDouble(p -> p.getPrice() * p.getQuantity())
+            .sum();
+    }
+
+    @Override
+    public Map<String, Long> getCategoryDistribution() {
+        return productRepository.findAll().stream()
+            .collect(Collectors.groupingBy(
+                Product::getCategory,
+                Collectors.counting()
+            ));
+    }
+
+    @Override
+    public Map<String, Integer> getStockLevelsByCategory() {
+        return productRepository.findAll().stream()
+            .collect(Collectors.groupingBy(
+                Product::getCategory,
+                Collectors.summingInt(Product::getQuantity)
+            ));
+    }
+
+    @Override
+    public List<Product> getLowStockItems() {
+        return productRepository.findLowStockProducts();
     }
 }

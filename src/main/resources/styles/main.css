@@ -250,4 +250,177 @@
     -fx-font-size: 24px;
     -fx-font-weight: bold;
     -fx-text-fill: #2c3e50;
+}
+
+/* General Styles */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #f5f5f5;
+}
+
+/* Dashboard Styles */
+.metric-card {
+    -fx-background-color: white;
+    -fx-padding: 15;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+.metric-title {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666;
+}
+
+.metric-value {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.metric-description {
+    -fx-font-size: 12px;
+    -fx-text-fill: #999;
+}
+
+.chart-card, .table-card {
+    -fx-background-color: white;
+    -fx-padding: 15;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-padding: 0 0 10 0;
+}
+
+/* Table Styles */
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #495057;
+    -fx-font-weight: bold;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #f8f9fa;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #e9ecef;
+}
+
+/* Chart Styles */
+.chart {
+    -fx-padding: 10;
+}
+
+.chart-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.axis-label {
+    -fx-font-size: 12px;
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #495057;
+}
+
+/* Pie Chart Styles */
+.pie-chart {
+    -fx-padding: 10;
+}
+
+.pie-chart .chart-pie {
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+
+.pie-chart .chart-pie .chart-pie-label {
+    -fx-fill: white;
+    -fx-font-size: 12px;
+}
+
+/* Line Chart Styles */
+.line-chart {
+    -fx-padding: 10;
+}
+
+.line-chart .chart-series-line {
+    -fx-stroke-width: 2;
+}
+
+.line-chart .chart-line-symbol {
+    -fx-background-color: white;
+    -fx-background-radius: 3;
+    -fx-padding: 3;
+}
+
+/* Button Styles */
+.button {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8 16;
+    -fx-background-radius: 4;
+}
+
+.button:hover {
+    -fx-background-color: #0056b3;
+}
+
+.button:pressed {
+    -fx-background-color: #004085;
+}
+
+/* Text Field Styles */
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 4;
+    -fx-padding: 8;
+}
+
+.text-field:focused {
+    -fx-border-color: #80bdff;
+    -fx-effect: dropshadow(gaussian, rgba(0,123,255,0.25), 10, 0, 0, 0);
+}
+
+/* Label Styles */
+.label {
+    -fx-text-fill: #212529;
+}
+
+/* Error Label Style */
+.error-label {
+    -fx-text-fill: #dc3545;
+    -fx-font-size: 12px;
+}
+
+/* Success Label Style */
+.success-label {
+    -fx-text-fill: #28a745;
+    -fx-font-size: 12px;
 } 

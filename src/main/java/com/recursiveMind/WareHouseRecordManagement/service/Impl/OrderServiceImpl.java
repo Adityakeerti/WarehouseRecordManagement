@@ -167,4 +167,13 @@ public class OrderServiceImpl implements OrderService {
     public Double getMonthlyRevenue() {
         return orderRepository.getMonthlyRevenue();
     }
+
+    @Override
+    public long getTotalOrdersThisMonth() {
+        LocalDateTime startOfMonth = LocalDateTime.now().withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime endOfMonth = LocalDateTime.now().withDayOfMonth(LocalDateTime.now().toLocalDate().lengthOfMonth())
+                .withHour(23).withMinute(59).withSecond(59);
+        
+        return orderRepository.countByOrderDateBetween(startOfMonth, endOfMonth);
+    }
 } 

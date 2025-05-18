@@ -15,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
@@ -25,7 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
-public class DashboardViewController {
+public class DashboardViewController extends BaseController {
 
     @FXML
     private Label totalProductsLabel;
@@ -75,107 +74,100 @@ public class DashboardViewController {
     @FXML
     private PieChart categoryChart;
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+    private final OrderService orderService;
 
-    @Autowired
-    private OrderService orderService;
-
-    private ObservableList<Order> recentOrders = FXCollections.observableArrayList();
-    private ObservableList<Product> lowStockItems = FXCollections.observableArrayList();
+    public DashboardViewController(ProductService productService, OrderService orderService) {
+        this.productService = productService;
+        this.orderService = orderService;
+    }
 
     @FXML
     public void initialize() {
+        updateDashboardMetrics();
+        setupCharts();
         setupTables();
-        loadDashboardData();
+        loadData();
+    }
+
+    private void updateDashboardMetrics() {
+        try {
+            // Update total products
+            long totalProducts = productService.getTotalProducts();
+            totalProductsLabel.setText(String.valueOf(totalProducts));
+            
+            // Update low stock items
+            long lowStockItems = productService.getLowStockItemsCount();
+            lowStockLabel.setText(String.valueOf(lowStockItems));
+            
+            // Update total orders
+            long totalOrders = orderService.getTotalOrdersThisMonth();
+            totalOrdersLabel.setText(String.valueOf(totalOrders));
+            
+            // Update total value
+            double totalValue = productService.getTotalInventoryValue();
+            totalValueLabel.setText(String.format("$%.2f", totalValue));
+        } catch (Exception e) {
+            showError("Error updating dashboard metrics: " + e.getMessage());
+        }
+    }
+
+    private void setupCharts() {
+        try {
+            // Setup category distribution pie chart
+            Map<String, Long> categoryDistribution = productService.getCategoryDistribution();
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+                categoryDistribution.entrySet().stream()
+                    .map(entry -> new PieChart.Data(entry.getKey(), entry.getValue()))
+                    .collect(Collectors.toList())
+            );
+            categoryChart.setData(pieChartData);
+            
+            // Setup stock level line chart
+            // This will be populated in loadData()
+        } catch (Exception e) {
+            showError("Error setting up charts: " + e.getMessage());
+        }
     }
 
     private void setupTables() {
-        // Recent Orders Table
-        orderIdColumn.setCellValueFactory(new PropertyValueFactory<>("orderId"));
-        orderDateColumn.setCellValueFactory(cellData -> {
-            LocalDateTime date = cellData.getValue().getOrderDate();
-            return new SimpleStringProperty(
-                date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+        // Setup recent orders table
+        orderIdColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+        orderDateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
+        orderStatusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
+        orderTotalColumn.setCellValueFactory(cellData -> cellData.getValue().totalProperty().asObject());
+        
+        // Setup low stock table
+        productCodeColumn.setCellValueFactory(cellData -> cellData.getValue().codeProperty());
+        productNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        currentStockColumn.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
+        minStockColumn.setCellValueFactory(cellData -> cellData.getValue().minStockProperty().asObject());
+    }
+
+    private void loadData() {
+        try {
+            // Load recent orders
+            List<Order> recentOrders = orderService.getRecentOrders(5);
+            recentOrdersTable.setItems(FXCollections.observableArrayList(recentOrders));
+            
+            // Load low stock items
+            List<Product> lowStockItems = productService.getLowStockItems();
+            lowStockTable.setItems(FXCollections.observableArrayList(lowStockItems));
+            
+            // Update stock level chart
+            Map<String, Integer> stockLevels = productService.getStockLevelsByCategory();
+            stockLevelChart.getData().clear();
+            
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Stock Levels");
+            
+            stockLevels.forEach((category, quantity) -> 
+                series.getData().add(new XYChart.Data<>(category, quantity))
             );
-        });
-        orderStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        orderTotalColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
-        recentOrdersTable.setItems(recentOrders);
-
-        // Low Stock Table
-        productCodeColumn.setCellValueFactory(new PropertyValueFactory<>("productCode"));
-        productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        currentStockColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        minStockColumn.setCellValueFactory(new PropertyValueFactory<>("minStockLevel"));
-        lowStockTable.setItems(lowStockItems);
-    }
-
-    private void loadDashboardData() {
-        // Load summary metrics
-        List<Product> allProducts = productService.getAllProducts();
-        totalProductsLabel.setText(String.valueOf(allProducts.size()));
-        
-        List<Product> lowStockProducts = productService.getLowStockProducts();
-        lowStockLabel.setText(String.valueOf(lowStockProducts.size()));
-        
-        double totalValue = allProducts.stream()
-            .mapToDouble(p -> p.getPrice() * p.getQuantity())
-            .sum();
-        totalValueLabel.setText(String.format("$%.2f", totalValue));
-
-        // Load recent orders
-        loadRecentOrders();
-        totalOrdersLabel.setText(String.valueOf(recentOrders.size()));
-
-        // Load low stock items
-        lowStockItems.setAll(lowStockProducts);
-
-        // Update stock level chart
-        updateStockLevelChart(allProducts);
-
-        // Update category distribution chart
-        updateCategoryChart(allProducts);
-    }
-
-    private void loadRecentOrders() {
-        List<Order> orders = orderService.getAllOrders();
-        // Sort by order date descending and take first 5
-        orders.sort((o1, o2) -> o2.getOrderDate().compareTo(o1.getOrderDate()));
-        orders = orders.stream().limit(5).collect(Collectors.toList());
-        recentOrdersTable.setItems(FXCollections.observableArrayList(orders));
-    }
-
-    private void updateStockLevelChart(List<Product> products) {
-        stockLevelChart.getData().clear();
-        
-        Map<String, Double> categoryStock = products.stream()
-            .collect(Collectors.groupingBy(
-                Product::getCategory,
-                Collectors.summingDouble(Product::getQuantity)
-            ));
-
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Stock Levels");
-        
-        categoryStock.forEach((category, stock) -> 
-            series.getData().add(new XYChart.Data<>(category, stock))
-        );
-
-        stockLevelChart.getData().add(series);
-    }
-
-    private void updateCategoryChart(List<Product> products) {
-        categoryChart.getData().clear();
-        
-        Map<String, Long> categoryCount = products.stream()
-            .collect(Collectors.groupingBy(
-                Product::getCategory,
-                Collectors.counting()
-            ));
-
-        categoryCount.forEach((category, count) -> 
-            categoryChart.getData().add(new PieChart.Data(category, count))
-        );
+            
+            stockLevelChart.getData().add(series);
+        } catch (Exception e) {
+            showError("Error loading dashboard data: " + e.getMessage());
+        }
     }
 } 

@@ -23,4 +23,7 @@ public interface OrderService {
     long getMonthlyOrdersCount();
     Double getMonthlyRevenue();
     List<Order> getRecentOrders(int limit);
+    
+    // New method for dashboard
+    long getTotalOrdersThisMonth();
 } 

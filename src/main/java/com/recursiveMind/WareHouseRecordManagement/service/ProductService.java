@@ -3,6 +3,7 @@ package com.recursiveMind.WareHouseRecordManagement.service;
 import com.recursiveMind.WareHouseRecordManagement.model.Product;
 import com.recursiveMind.WareHouseRecordManagement.model.StockMovement;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ProductService {
@@ -21,4 +22,12 @@ public interface ProductService {
     Product addStock(Long productId, int quantity);
     Product removeStock(Long productId, int quantity);
     void logStockMovement(StockMovement movement);
+    
+    // New methods for dashboard
+    long getTotalProducts();
+    long getLowStockItemsCount();
+    double getTotalInventoryValue();
+    Map<String, Long> getCategoryDistribution();
+    Map<String, Integer> getStockLevelsByCategory();
+    List<Product> getLowStockItems();
 }

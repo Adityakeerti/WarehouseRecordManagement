@@ -21,8 +21,6 @@
             
             <Button text="Dashboard" onAction="#showDashboard" styleClass="sidebar-button"/>
             <Button text="Products" onAction="#showProducts" styleClass="sidebar-button"/>
-            <Button text="Orders" onAction="#showOrders" styleClass="sidebar-button"/>
-            <Button text="Suppliers" onAction="#showSuppliers" styleClass="sidebar-button"/>
             <Button text="Reports" onAction="#showReports" styleClass="sidebar-button"/>
             
             <Region VBox.vgrow="ALWAYS"/>
