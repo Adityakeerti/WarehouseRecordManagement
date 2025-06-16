@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.recursiveMind.WareHouseRecordManagement.controller.UserDashboardController">
+    
+    <!-- Left Sidebar -->
+    <left>
+        <VBox styleClass="sidebar" prefWidth="200">
+            <padding>
+                <Insets top="20" right="10" bottom="20" left="10"/>
+            </padding>
+            
+            <Label fx:id="userNameLabel" styleClass="user-name"/>
+            <Label fx:id="dateTimeLabel" styleClass="date-time"/>
+            
+            <Separator/>
+            
+            <Button text="Dashboard" onAction="#handleDashboard" styleClass="nav-button"/>
+            <Button text="Warehouses" onAction="#handleWarehouses" styleClass="nav-button"/>
+            <Button text="My Orders" onAction="#handleOrders" styleClass="nav-button"/>
+            <Button text="Profile" onAction="#handleProfile" styleClass="nav-button"/>
+            
+            <Region VBox.vgrow="ALWAYS"/>
+            
+            <Button text="Logout" onAction="#handleLogout" styleClass="logout-button"/>
+        </VBox>
+    </left>
+    
+    <!-- Main Content Area -->
+    <center>
+        <StackPane fx:id="contentArea"/>
+    </center>
+    
+    <!-- Bottom Status Bar -->
+    <bottom>
+        <HBox styleClass="status-bar">
+            <padding>
+                <Insets top="5" right="10" bottom="5" left="10"/>
+            </padding>
+            <Label text="Ready" styleClass="status-label"/>
+        </HBox>
+    </bottom>
+    
+</BorderPane> 

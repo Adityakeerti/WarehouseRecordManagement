@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.chart.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.recursiveMind.WareHouseRecordManagement.controller.DashboardViewController"
+      spacing="20" styleClass="content-area">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Summary Cards -->
+    <HBox spacing="20">
+        <!-- Total Products Card -->
+        <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <Label text="Total Products" styleClass="metric-title"/>
+            <Label fx:id="totalProductsLabel" styleClass="metric-value"/>
+            <Label text="Active products in inventory" styleClass="metric-description"/>
+        </VBox>
+
+        <!-- Low Stock Card -->
+        <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <Label text="Low Stock Items" styleClass="metric-title"/>
+            <Label fx:id="lowStockLabel" styleClass="metric-value"/>
+            <Label text="Items below minimum stock level" styleClass="metric-description"/>
+        </VBox>
+
+        <!-- Total Orders Card -->
+        <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <Label text="Total Orders" styleClass="metric-title"/>
+            <Label fx:id="totalOrdersLabel" styleClass="metric-value"/>
+            <Label text="Orders this month" styleClass="metric-description"/>
+        </VBox>
+
+        <!-- Total Value Card -->
+        <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <Label text="Total Value" styleClass="metric-title"/>
+            <Label fx:id="totalValueLabel" styleClass="metric-value"/>
+            <Label text="Current inventory value" styleClass="metric-description"/>
+        </VBox>
+    </HBox>
+
+    <!-- Charts and Tables Section -->
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+        <!-- Left Column -->
+        <VBox spacing="20" HBox.hgrow="ALWAYS">
+            <!-- Stock Level Chart -->
+            <VBox styleClass="chart-card" VBox.vgrow="ALWAYS">
+                <Label text="Stock Levels" styleClass="section-title"/>
+                <LineChart fx:id="stockLevelChart" VBox.vgrow="ALWAYS">
+                    <xAxis>
+                        <CategoryAxis label="Product Category"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="Quantity"/>
+                    </yAxis>
+                </LineChart>
+            </VBox>
+
+            <!-- Recent Orders Table -->
+            <VBox styleClass="table-card" VBox.vgrow="ALWAYS">
+                <Label text="Recent Orders" styleClass="section-title"/>
+                <TableView fx:id="recentOrdersTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="orderIdColumn" text="Order ID" prefWidth="100"/>
+                        <TableColumn fx:id="orderDateColumn" text="Date" prefWidth="150"/>
+                        <TableColumn fx:id="orderStatusColumn" text="Status" prefWidth="100"/>
+                        <TableColumn fx:id="orderTotalColumn" text="Total" prefWidth="100"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </VBox>
+
+        <!-- Right Column -->
+        <VBox spacing="20" HBox.hgrow="ALWAYS">
+            <!-- Low Stock Items Table -->
+            <VBox styleClass="table-card" VBox.vgrow="ALWAYS">
+                <Label text="Low Stock Items" styleClass="section-title"/>
+                <TableView fx:id="lowStockTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="productCodeColumn" text="Product Code" prefWidth="100"/>
+                        <TableColumn fx:id="productNameColumn" text="Name" prefWidth="150"/>
+                        <TableColumn fx:id="currentStockColumn" text="Current Stock" prefWidth="100"/>
+                        <TableColumn fx:id="minStockColumn" text="Min Stock" prefWidth="100"/>
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Category Distribution Chart -->
+            <VBox styleClass="chart-card" VBox.vgrow="ALWAYS">
+                <Label text="Category Distribution" styleClass="section-title"/>
+                <PieChart fx:id="categoryChart" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </VBox>
+    </HBox>
+</VBox> 
