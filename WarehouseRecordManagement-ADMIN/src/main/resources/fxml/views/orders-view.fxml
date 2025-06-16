@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.recursiveMind.WareHouseRecordManagement.controller.OrdersViewController"
+      spacing="10" padding="20">
+    
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Orders Management" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="New Order" onAction="#handleNewOrder" styleClass="button-primary"/>
+    </HBox>
+    
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Search orders..." prefWidth="300"/>
+        <ComboBox fx:id="statusFilter" promptText="Filter by status"/>
+        <DatePicker fx:id="startDate" promptText="Start Date"/>
+        <DatePicker fx:id="endDate" promptText="End Date"/>
+        <Button text="Search" onAction="#handleSearch"/>
+        <Button text="Clear" onAction="#handleClearFilters"/>
+    </HBox>
+    
+    <TableView fx:id="ordersTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="orderIdColumn" text="Order ID" prefWidth="120"/>
+            <TableColumn fx:id="dateColumn" text="Date" prefWidth="150"/>
+            <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
+            <TableColumn fx:id="totalAmountColumn" text="Total Amount" prefWidth="120"/>
+            <TableColumn fx:id="userColumn" text="User" prefWidth="150"/>
+            <TableColumn fx:id="paymentStatusColumn" text="Payment Status" prefWidth="120"/>
+            <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="150"/>
+        </columns>
+    </TableView>
+    
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Label text="Total Orders:"/>
+        <Label fx:id="totalOrdersLabel" text="0"/>
+        <Label text="Total Revenue:"/>
+        <Label fx:id="totalRevenueLabel" text="$0.00"/>
+    </HBox>
+    
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button text="Export to Excel" onAction="#handleExportToExcel"/>
+        <Button text="Print Report" onAction="#handlePrintReport"/>
+    </HBox>
+</VBox> 

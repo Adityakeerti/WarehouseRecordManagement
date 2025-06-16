@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<ScrollPane xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.recursiveMind.WareHouseRecordManagement.controller.UserWarehousesController"
+      fitToWidth="true"
+      styleClass="content-area">
+    
+    <VBox spacing="20">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        
+        <Label text="Browse Warehouses" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        
+        <Label text="Select a warehouse to view available products and place your order:" style="-fx-font-size: 14px;"/>
+        
+        <FlowPane fx:id="warehousesContainer" hgap="20" vgap="20" prefWrapLength="1000"/>
+        
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button fx:id="refreshButton" text="Refresh" onAction="#handleRefresh"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        </HBox>
+    </VBox>
+</ScrollPane> 

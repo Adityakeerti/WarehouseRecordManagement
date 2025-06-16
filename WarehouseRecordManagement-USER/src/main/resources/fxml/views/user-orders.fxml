@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.recursiveMind.WareHouseRecordManagement.controller.UserOrdersController"
+      spacing="20">
+    <padding>
+        <Insets all="20"/>
+    </padding>
+    
+    <Label text="My Orders" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    
+    <Label text="Track the status of your orders and view order details:" style="-fx-font-size: 14px;"/>
+    
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <ComboBox fx:id="statusFilterComboBox" promptText="Filter by Order Status" onAction="#handleStatusFilter"/>
+        <Button fx:id="refreshButton" text="Refresh Orders" onAction="#handleRefresh" 
+                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+    
+    <TableView fx:id="ordersTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="orderIdColumn" text="Order ID" prefWidth="100"/>
+            <TableColumn fx:id="orderDateColumn" text="Order Date" prefWidth="150"/>
+            <TableColumn fx:id="warehouseColumn" text="Warehouse" prefWidth="200"/>
+            <TableColumn fx:id="statusColumn" text="Order Status" prefWidth="100"/>
+            <TableColumn fx:id="totalColumn" text="Total Amount" prefWidth="120"/>
+            <TableColumn fx:id="detailsColumn" text="View Details" prefWidth="100"/>
+        </columns>
+    </TableView>
+    
+</VBox> 

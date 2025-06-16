@@ -1,0 +1,89 @@
+.warehouse-card {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);
+    -fx-padding: 15;
+    -fx-spacing: 10;
+}
+
+.warehouse-name {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.warehouse-location {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666;
+}
+
+.warehouse-status {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.primary-button {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15;
+    -fx-background-radius: 3;
+}
+
+.primary-button:hover {
+    -fx-background-color: #27ae60;
+}
+
+.refresh-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15;
+    -fx-background-radius: 3;
+}
+
+.refresh-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.products-view {
+    -fx-background-color: white;
+}
+
+.warehouse-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.total-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.total-amount {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2ecc71;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f8f9fa;
+    -fx-font-weight: bold;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #f0f0f0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #e8f5e9;
+}
+
+.table-view .table-cell {
+    -fx-padding: 10;
+} 

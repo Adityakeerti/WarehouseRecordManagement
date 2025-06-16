@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.chart.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.recursiveMind.WareHouseRecordManagement.controller.UserDashboardContentController"
+      spacing="20" styleClass="content-area">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Summary Cards -->
+    <HBox spacing="20">
+        <!-- Total Orders Card -->
+        <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <Label text="My Orders" styleClass="metric-title"/>
+            <Label fx:id="totalOrdersLabel" styleClass="metric-value"/>
+            <Label text="Total orders placed" styleClass="metric-description"/>
+        </VBox>
+
+        <!-- Pending Orders Card -->
+        <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <Label text="Pending Orders" styleClass="metric-title"/>
+            <Label fx:id="pendingOrdersLabel" styleClass="metric-value"/>
+            <Label text="Orders in progress" styleClass="metric-description"/>
+        </VBox>
+
+        <!-- Delivered Orders Card -->
+        <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <Label text="Delivered Orders" styleClass="metric-title"/>
+            <Label fx:id="deliveredOrdersLabel" styleClass="metric-value"/>
+            <Label text="Successfully delivered" styleClass="metric-description"/>
+        </VBox>
+
+        <!-- Total Spent Card -->
+        <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <Label text="Total Spent" styleClass="metric-title"/>
+            <Label fx:id="totalSpentLabel" styleClass="metric-value"/>
+            <Label text="Total amount spent on orders" styleClass="metric-description"/>
+        </VBox>
+    </HBox>
+
+    <!-- Charts and Tables Section -->
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+        <!-- Left Column -->
+        <VBox spacing="20" HBox.hgrow="ALWAYS">
+            <!-- Recent Orders Table -->
+            <VBox styleClass="table-card" VBox.vgrow="ALWAYS">
+                <Label text="Recent Orders" styleClass="section-title"/>
+                <TableView fx:id="recentOrdersTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="orderIdColumn" text="Order ID" prefWidth="100"/>
+                        <TableColumn fx:id="orderDateColumn" text="Order Date" prefWidth="150"/>
+                        <TableColumn fx:id="orderStatusColumn" text="Order Status" prefWidth="100"/>
+                        <TableColumn fx:id="orderTotalColumn" text="Total Amount" prefWidth="100"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </VBox>
+
+        <!-- Right Column -->
+        <VBox spacing="20" HBox.hgrow="ALWAYS">
+            <!-- Order Status Distribution Chart -->
+            <VBox styleClass="chart-card" VBox.vgrow="ALWAYS">
+                <Label text="My Order Status" styleClass="section-title"/>
+                <PieChart fx:id="orderStatusChart" VBox.vgrow="ALWAYS"/>
+            </VBox>
+
+            <!-- Monthly Orders Chart -->
+            <VBox styleClass="chart-card" VBox.vgrow="ALWAYS">
+                <Label text="My Monthly Orders" styleClass="section-title"/>
+                <LineChart fx:id="monthlyOrdersChart" VBox.vgrow="ALWAYS">
+                    <xAxis>
+                        <CategoryAxis label="Month"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="Number of Orders"/>
+                    </yAxis>
+                </LineChart>
+            </VBox>
+        </VBox>
+    </HBox>
+</VBox> 

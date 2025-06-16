@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.recursiveMind.WareHouseRecordManagement.controller.WarehouseProductsController"
+      spacing="20"
+      styleClass="products-view">
+    
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="warehouseNameLabel" styleClass="warehouse-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="refreshButton" text="Refresh" onAction="#handleRefresh" styleClass="refresh-button"/>
+    </HBox>
+    
+    <TableView fx:id="productsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="nameColumn" text="Product Name" prefWidth="200"/>
+            <TableColumn fx:id="quantityColumn" text="Available Quantity" prefWidth="150"/>
+            <TableColumn fx:id="priceColumn" text="Price" prefWidth="100"/>
+            <TableColumn fx:id="actionColumn" text="Action" prefWidth="150"/>
+        </columns>
+    </TableView>
+    
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Label text="Total Amount:" styleClass="total-label"/>
+        <Label fx:id="totalAmountLabel" styleClass="total-amount"/>
+        <Button fx:id="placeOrderButton" text="Place Order" onAction="#handlePlaceOrder" styleClass="primary-button"/>
+    </HBox>
+</VBox> 
