@@ -45,10 +45,6 @@ public class Product {
     
     private String location;
     
-    @ManyToOne
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
-    
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     

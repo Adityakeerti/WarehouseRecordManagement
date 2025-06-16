@@ -72,6 +72,7 @@
                         <TableColumn fx:id="orderDateColumn" text="Date" prefWidth="150"/>
                         <TableColumn fx:id="orderStatusColumn" text="Status" prefWidth="100"/>
                         <TableColumn fx:id="orderTotalColumn" text="Total" prefWidth="100"/>
+                        <TableColumn text="Actions" prefWidth="200" fx:id="orderActionsColumn"/>
                     </columns>
                 </TableView>
             </VBox>

@@ -1,4 +1,4 @@
-package com.recursiveMind.WareHouseRecordManagement.service.impl;
+package com.recursiveMind.WareHouseRecordManagement.service.Impl;
 
 import com.recursiveMind.WareHouseRecordManagement.model.User;
 import com.recursiveMind.WareHouseRecordManagement.repository.UserRepository;
