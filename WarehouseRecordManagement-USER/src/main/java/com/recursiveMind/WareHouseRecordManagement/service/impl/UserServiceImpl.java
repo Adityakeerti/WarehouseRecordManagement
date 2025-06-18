@@ -21,24 +21,36 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User authenticate(String username, String password) {
+        System.out.println("=== DEBUG: Authentication attempt ===");
+        System.out.println("Username: " + username);
+        System.out.println("Password: " + password);
+        
         User user = userRepository.findByUsername(username);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+        System.out.println("User found: " + (user != null));
+        
+        if (user != null) {
+            System.out.println("Stored password: " + user.getPassword());
+            System.out.println("Password match: " + password.equals(user.getPassword()));
+        }
+        
+        if (user != null && password.equals(user.getPassword())) {
+            System.out.println("Authentication successful!");
             return user;
         }
+        
+        System.out.println("Authentication failed!");
         return null;
     }
     
     @Override
     public User createUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // Don't hash password since we're using NoOpPasswordEncoder
         return userRepository.save(user);
     }
     
     @Override
     public User updateUser(User user) {
-        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
+        // Don't hash password since we're using NoOpPasswordEncoder
         return userRepository.save(user);
     }
     
