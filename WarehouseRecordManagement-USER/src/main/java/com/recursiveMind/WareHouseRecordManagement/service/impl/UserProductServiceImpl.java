@@ -17,7 +17,11 @@ public class UserProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
+<<<<<<< HEAD
         return productRepository.findAll();
+=======
+        return productRepository.findProductsInDeliveredOrders();
+>>>>>>> 5c4f977 (Done)
     }
 
     @Override

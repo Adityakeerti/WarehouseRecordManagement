@@ -13,7 +13,10 @@ public interface OrderService {
     Optional<Order> getOrderById(Long id);
     Order updateOrder(Order order);
     void deleteOrder(Long id);
+<<<<<<< HEAD
     List<Order> getOrdersByUserId(Long userId);
+=======
+>>>>>>> 5c4f977 (Done)
     List<Order> getOrdersByStatus(OrderStatus status);
     List<Order> getOrdersByDateRange(LocalDateTime startDate, LocalDateTime endDate);
     Order getOrderByOrderId(String orderId);

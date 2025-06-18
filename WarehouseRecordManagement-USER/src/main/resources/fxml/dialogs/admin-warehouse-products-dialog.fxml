@@ -12,7 +12,20 @@
 
     <Label styleClass="dialog-title" text="Admin Warehouse Products" />
 
+<<<<<<< HEAD
     <ListView fx:id="productList" VBox.vgrow="ALWAYS" />
+=======
+    <TableView fx:id="productsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="nameColumn" text="Name" />
+            <TableColumn fx:id="categoryColumn" text="Category" />
+            <TableColumn fx:id="priceColumn" text="Price" />
+            <TableColumn fx:id="availableColumn" text="Available" />
+            <TableColumn fx:id="selectedColumn" text="Selected" />
+            <TableColumn fx:id="actionColumn" text="Add/Subtract" />
+        </columns>
+    </TableView>
+>>>>>>> 5c4f977 (Done)
 
     <HBox alignment="CENTER_RIGHT" spacing="10.0">
         <Label text="Total:" styleClass="total-label"/>

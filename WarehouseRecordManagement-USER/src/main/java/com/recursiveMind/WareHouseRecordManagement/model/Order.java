@@ -21,10 +21,13 @@ public class Order {
     @Column(name = "order_id", unique = true, nullable = false)
     private String orderId;
     
+<<<<<<< HEAD
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
     
+=======
+>>>>>>> 5c4f977 (Done)
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
     
@@ -35,8 +38,25 @@ public class Order {
     @Column(name = "total_amount", nullable = false)
     private Double totalAmount;
     
+<<<<<<< HEAD
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
+=======
+    @Column(length = 1000)
+    private String notes;
+    
+    @Column(name = "shipping_address", length = 500)
+    private String shippingAddress;
+    
+    @Column(name = "billing_address", length = 500)
+    private String billingAddress;
+    
+    @Column(name = "payment_method")
+    private String paymentMethod;
+    
+    @Column(name = "payment_status")
+    private String paymentStatus;
+>>>>>>> 5c4f977 (Done)
     
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -54,6 +74,7 @@ public class Order {
     @Transient
     private final DoubleProperty totalProperty = new SimpleDoubleProperty();
     
+<<<<<<< HEAD
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -100,14 +121,39 @@ public class Order {
     public StringProperty statusProperty() { return statusProperty; }
     public DoubleProperty totalProperty() { return totalProperty; }
     
+=======
+>>>>>>> 5c4f977 (Done)
     @PostLoad
     public void initializeProperties() {
         idProperty.set(orderId);
         dateProperty.set(orderDate.toString());
+<<<<<<< HEAD
         statusProperty.set(status.getDisplayName());
         totalProperty.set(totalAmount);
     }
     
+=======
+        statusProperty.set(status.name());
+        totalProperty.set(totalAmount);
+    }
+    
+    public StringProperty idProperty() {
+        return idProperty;
+    }
+    
+    public StringProperty dateProperty() {
+        return dateProperty;
+    }
+    
+    public StringProperty statusProperty() {
+        return statusProperty;
+    }
+    
+    public DoubleProperty totalProperty() {
+        return totalProperty;
+    }
+    
+>>>>>>> 5c4f977 (Done)
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -118,6 +164,7 @@ public class Order {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+<<<<<<< HEAD
     
     public void addOrderItem(OrderItem item) {
         orderItems.add(item);
@@ -137,4 +184,6 @@ public class Order {
             .sum();
         totalProperty.set(totalAmount);
     }
+=======
+>>>>>>> 5c4f977 (Done)
 } 

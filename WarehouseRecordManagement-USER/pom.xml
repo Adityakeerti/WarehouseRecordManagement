@@ -81,11 +81,19 @@
         </dependency>
 
         <!-- Dependency on the main module for shared services/models -->
+<<<<<<< HEAD
         <dependency>
             <groupId>com.recursiveMind</groupId>
             <artifactId>WareHouseRecordManagement</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+=======
+        <!-- <dependency>
+            <groupId>com.recursiveMind</groupId>
+            <artifactId>WareHouseRecordManagement</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency> -->
+>>>>>>> 5c4f977 (Done)
     </dependencies>
 
     <build>

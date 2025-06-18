@@ -59,7 +59,11 @@ public class UserDashboardContentController {
     private LineChart<String, Number> monthlyOrdersChart;
     
     @Autowired
+<<<<<<< HEAD
     @Qualifier("userOrderService")
+=======
+    @Qualifier("adminOrderService")
+>>>>>>> 5c4f977 (Done)
     private OrderService orderService;
     
     @FXML
@@ -84,6 +88,7 @@ public class UserDashboardContentController {
     
     private void loadDashboardData() {
         try {
+<<<<<<< HEAD
             // Get current user's orders
             Long userId = com.recursiveMind.WareHouseRecordManagement.WarehouseUserApp.getCurrentUser().getId();
             List<Order> userOrders = orderService.getOrdersByUserId(userId);
@@ -108,26 +113,66 @@ public class UserDashboardContentController {
             
             // Update recent orders table
             List<Order> recentOrders = userOrders.stream()
+=======
+            // Fetch all orders (no user filtering)
+            List<Order> orders = orderService.getAllOrders();
+
+            // Update metrics
+            totalOrdersLabel.setText(String.valueOf(orders.size()));
+
+            long pendingCount = orders.stream()
+                .filter(order -> order.getStatus() == OrderStatus.PENDING)
+                .count();
+            pendingOrdersLabel.setText(String.valueOf(pendingCount));
+
+            long deliveredCount = orders.stream()
+                .filter(order -> order.getStatus() == OrderStatus.DELIVERED)
+                .count();
+            deliveredOrdersLabel.setText(String.valueOf(deliveredCount));
+
+            double totalSpent = orders.stream()
+                .mapToDouble(Order::getTotalAmount)
+                .sum();
+            totalSpentLabel.setText(String.format("$%.2f", totalSpent));
+
+            // Update recent orders table
+            List<Order> recentOrders = orders.stream()
+>>>>>>> 5c4f977 (Done)
                 .sorted((o1, o2) -> o2.getOrderDate().compareTo(o1.getOrderDate()))
                 .limit(5)
                 .collect(Collectors.toList());
             recentOrdersTable.setItems(FXCollections.observableArrayList(recentOrders));
+<<<<<<< HEAD
             
             // Update order status chart
             Map<OrderStatus, Long> statusCounts = userOrders.stream()
                 .collect(Collectors.groupingBy(Order::getStatus, Collectors.counting()));
             
+=======
+
+            // Update order status chart
+            Map<OrderStatus, Long> statusCounts = orders.stream()
+                .collect(Collectors.groupingBy(Order::getStatus, Collectors.counting()));
+
+>>>>>>> 5c4f977 (Done)
             orderStatusChart.getData().clear();
             statusCounts.forEach((status, count) -> 
                 orderStatusChart.getData().add(new PieChart.Data(status.toString(), count))
             );
+<<<<<<< HEAD
             
             // Update monthly orders chart
             Map<String, Long> monthlyOrders = userOrders.stream()
+=======
+
+            // Update monthly orders chart
+            Map<String, Long> monthlyOrders = orders.stream()
+>>>>>>> 5c4f977 (Done)
                 .collect(Collectors.groupingBy(
                     order -> order.getOrderDate().format(DateTimeFormatter.ofPattern("MMM yyyy")),
                     Collectors.counting()
                 ));
+<<<<<<< HEAD
             
             XYChart.Series<String, Number> series = new XYChart.Series<>();
             series.setName("Monthly Orders");
@@ -139,6 +184,19 @@ public class UserDashboardContentController {
             monthlyOrdersChart.getData().clear();
             monthlyOrdersChart.getData().add(series);
             
+=======
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Monthly Orders");
+
+            monthlyOrders.forEach((month, count) -> 
+                series.getData().add(new XYChart.Data<>(month, count))
+            );
+
+            monthlyOrdersChart.getData().clear();
+            monthlyOrdersChart.getData().add(series);
+
+>>>>>>> 5c4f977 (Done)
         } catch (Exception e) {
             e.printStackTrace();
         }

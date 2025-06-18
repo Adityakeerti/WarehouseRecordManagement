@@ -105,6 +105,7 @@ public class WarehouseProductsController {
     
     @FXML
     private void handlePlaceOrder() {
+<<<<<<< HEAD
         if (selectedProducts.isEmpty()) {
             showAlert("No Products Selected", "Please add products to your order", Alert.AlertType.WARNING);
             return;
@@ -126,6 +127,9 @@ public class WarehouseProductsController {
             showAlert("Order Placement Error", "Failed to open order dialog: " + e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
         }
+=======
+        showAlert("Order Placement Unavailable", "Order placement is currently disabled in this version.", Alert.AlertType.INFORMATION);
+>>>>>>> 5c4f977 (Done)
     }
     
     private void showAlert(String title, String message, Alert.AlertType type) {

@@ -48,11 +48,14 @@ public class AdminOrderServiceImpl implements OrderService {
     }
 
     @Override
+<<<<<<< HEAD
     public List<Order> getOrdersByUserId(Long userId) {
         return orderRepository.findByUserId(userId);
     }
 
     @Override
+=======
+>>>>>>> 5c4f977 (Done)
     public List<Order> getOrdersByStatus(OrderStatus status) {
         return orderRepository.findByStatus(status);
     }

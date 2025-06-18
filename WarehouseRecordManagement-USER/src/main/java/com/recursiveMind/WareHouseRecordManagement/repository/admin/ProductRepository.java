@@ -20,4 +20,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     
     @Query("SELECT p FROM Product p WHERE p.quantity > 0")
     List<Product> findAvailableProducts();
+<<<<<<< HEAD
+=======
+
+    @Query("SELECT DISTINCT p FROM Product p JOIN OrderItem oi ON oi.product = p JOIN Order o ON oi.order = o WHERE o.status = 'DELIVERED'")
+    List<Product> findProductsInDeliveredOrders();
+>>>>>>> 5c4f977 (Done)
 } 

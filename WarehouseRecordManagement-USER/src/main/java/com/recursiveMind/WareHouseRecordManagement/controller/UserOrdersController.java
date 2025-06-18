@@ -46,7 +46,11 @@ public class UserOrdersController {
     private Button refreshButton;
     
     @Autowired
+<<<<<<< HEAD
     @Qualifier("userOrderService")
+=======
+    @Qualifier("adminOrderService")
+>>>>>>> 5c4f977 (Done)
     private OrderService orderService;
     
     private FilteredList<Order> filteredOrders;
@@ -101,8 +105,12 @@ public class UserOrdersController {
     
     private void loadOrders() {
         try {
+<<<<<<< HEAD
             Long userId = com.recursiveMind.WareHouseRecordManagement.WarehouseUserApp.getCurrentUser().getId();
             List<Order> orders = orderService.getOrdersByUserId(userId);
+=======
+            List<Order> orders = orderService.getAllOrders();
+>>>>>>> 5c4f977 (Done)
             filteredOrders = new FilteredList<>(FXCollections.observableArrayList(orders));
             ordersTable.setItems(filteredOrders);
         } catch (Exception e) {

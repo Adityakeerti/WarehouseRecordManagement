@@ -16,6 +16,7 @@ public class OrderItem {
     private Long id;
     
     @ManyToOne
+<<<<<<< HEAD
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
     
@@ -32,6 +33,22 @@ public class OrderItem {
     private Double unitPrice;
     
     @Column(name = "total_price", nullable = false)
+=======
+    @JoinColumn(name = "order_id")
+    private Order order;
+    
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+    
+    @Column
+    private Integer quantity;
+    
+    @Column(name = "unit_price")
+    private Double unitPrice;
+    
+    @Column(name = "total_price")
+>>>>>>> 5c4f977 (Done)
     private Double totalPrice;
     
     @Column(length = 500)
@@ -43,6 +60,7 @@ public class OrderItem {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
+<<<<<<< HEAD
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -80,6 +98,8 @@ public class OrderItem {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
     
+=======
+>>>>>>> 5c4f977 (Done)
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
