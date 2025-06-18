@@ -43,6 +43,43 @@ public class OrderItem {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public Order getOrder() { return order; }
+    public void setOrder(Order order) { this.order = order; }
+    
+    public Long getProductId() { return productId; }
+    public void setProductId(Long productId) { this.productId = productId; }
+    
+    public String getProductName() { return productName; }
+    public void setProductName(String productName) { this.productName = productName; }
+    
+    public Integer getQuantity() { return quantity; }
+    public void setQuantity(Integer quantity) { 
+        this.quantity = quantity;
+        calculateTotal();
+    }
+    
+    public Double getUnitPrice() { return unitPrice; }
+    public void setUnitPrice(Double unitPrice) { 
+        this.unitPrice = unitPrice;
+        calculateTotal();
+    }
+    
+    public Double getTotalPrice() { return totalPrice; }
+    public void setTotalPrice(Double totalPrice) { this.totalPrice = totalPrice; }
+    
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
+    
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

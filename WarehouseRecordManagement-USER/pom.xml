@@ -79,6 +79,13 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Dependency on the main module for shared services/models -->
+        <dependency>
+            <groupId>com.recursiveMind</groupId>
+            <artifactId>WareHouseRecordManagement</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

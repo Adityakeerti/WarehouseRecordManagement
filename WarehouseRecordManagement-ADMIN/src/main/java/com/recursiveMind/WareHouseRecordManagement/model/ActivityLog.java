@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "activity_log")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,16 +15,20 @@ public class ActivityLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "action")
     private String action; // ADD, UPDATE, DELETE
+    
+    @Column(name = "product_code")
     private String productCode;
+    
+    @Column(name = "product_name")
     private String productName;
+    
+    @Column(name = "details")
     private String details;
 
+    @Column(name = "timestamp")
     private LocalDateTime timestamp;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @PrePersist
     protected void onCreate() {

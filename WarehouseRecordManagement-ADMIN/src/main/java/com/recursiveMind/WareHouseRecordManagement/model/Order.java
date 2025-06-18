@@ -31,13 +31,6 @@ public class Order {
     @Column(name = "total_amount", nullable = false)
     private Double totalAmount;
     
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-    
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems = new ArrayList<>();
-    
     @Column(length = 1000)
     private String notes;
     
@@ -102,24 +95,5 @@ public class Order {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
-    }
-    
-    public void addOrderItem(OrderItem item) {
-        orderItems.add(item);
-        item.setOrder(this);
-        calculateTotal();
-    }
-    
-    public void removeOrderItem(OrderItem item) {
-        orderItems.remove(item);
-        item.setOrder(null);
-        calculateTotal();
-    }
-    
-    public void calculateTotal() {
-        this.totalAmount = orderItems.stream()
-            .mapToDouble(item -> item.getQuantity() * item.getUnitPrice())
-            .sum();
-        totalProperty.set(totalAmount);
     }
 } 

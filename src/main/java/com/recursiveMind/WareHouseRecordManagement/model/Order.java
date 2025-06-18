@@ -31,8 +31,14 @@ public class Order {
     @Column(name = "total_amount", nullable = false)
     private Double totalAmount;
     
+    @Column(name = "warehouse_id")
+    private Long warehouseId;
+    
+    @Column(name = "warehouse_name", length = 255)
+    private String warehouseName;
+    
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
     
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)

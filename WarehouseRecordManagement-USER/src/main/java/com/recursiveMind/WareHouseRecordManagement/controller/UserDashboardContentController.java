@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
@@ -58,6 +59,7 @@ public class UserDashboardContentController {
     private LineChart<String, Number> monthlyOrdersChart;
     
     @Autowired
+    @Qualifier("userOrderService")
     private OrderService orderService;
     
     @FXML

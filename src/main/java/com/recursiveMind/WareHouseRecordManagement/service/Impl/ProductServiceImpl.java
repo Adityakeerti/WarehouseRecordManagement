@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 import com.recursiveMind.WareHouseRecordManagement.repository.ActivityLogRepository;
 import com.recursiveMind.WareHouseRecordManagement.model.ActivityLog;
 
-@Service
-@Transactional
+@Service("adminProductService")
+@Transactional("adminTransactionManager")
 public class ProductServiceImpl implements ProductService {
 
     @Autowired

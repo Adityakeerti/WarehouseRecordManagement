@@ -16,20 +16,20 @@ public class OrderItem {
     private Long id;
     
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id")
     private Order order;
     
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     private Product product;
     
-    @Column(nullable = false)
+    @Column
     private Integer quantity;
     
-    @Column(name = "unit_price", nullable = false)
+    @Column(name = "unit_price")
     private Double unitPrice;
     
-    @Column(name = "total_price", nullable = false)
+    @Column(name = "total_price")
     private Double totalPrice;
     
     @Column(length = 500)

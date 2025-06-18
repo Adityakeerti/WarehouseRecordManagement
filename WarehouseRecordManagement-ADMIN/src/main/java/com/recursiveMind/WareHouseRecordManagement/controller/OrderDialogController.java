@@ -1,21 +1,14 @@
 package com.recursiveMind.WareHouseRecordManagement.controller;
 
 import com.recursiveMind.WareHouseRecordManagement.model.Order;
-import com.recursiveMind.WareHouseRecordManagement.model.OrderItem;
-import com.recursiveMind.WareHouseRecordManagement.model.Product;
 import com.recursiveMind.WareHouseRecordManagement.model.OrderStatus;
 import com.recursiveMind.WareHouseRecordManagement.service.OrderService;
-import com.recursiveMind.WareHouseRecordManagement.service.ProductService;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import javafx.collections.FXCollections;
+import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,32 +22,20 @@ public class OrderDialogController extends BaseController {
     @FXML private ComboBox<String> statusComboBox;
     @FXML private ComboBox<String> paymentStatusComboBox;
     @FXML private ComboBox<String> paymentMethodComboBox;
-    @FXML private ComboBox<Product> productComboBox;
-    @FXML private TextField quantityField;
-    @FXML private TableView<OrderItem> itemsTable;
-    @FXML private TableColumn<OrderItem, String> productColumn;
-    @FXML private TableColumn<OrderItem, Integer> quantityColumn;
-    @FXML private TableColumn<OrderItem, Double> unitPriceColumn;
-    @FXML private TableColumn<OrderItem, Double> totalPriceColumn;
-    @FXML private TableColumn<OrderItem, Void> actionsColumn;
     @FXML private TextArea shippingAddressArea;
     @FXML private TextArea billingAddressArea;
     @FXML private TextArea notesArea;
-    @FXML private Label totalAmountLabel;
+    @FXML private TextField totalAmountField;
+    @FXML private Label dialogTitle;
     
     @Autowired
     private OrderService orderService;
     
-    @Autowired
-    private ProductService productService;
-    
     private Order order;
-    private ObservableList<OrderItem> orderItems = FXCollections.observableArrayList();
     
     @FXML
     public void initialize() {
         setupComboBoxes();
-        setupTable();
         setupValidation();
     }
     
@@ -70,63 +51,12 @@ public class OrderDialogController extends BaseController {
         paymentMethodComboBox.setItems(FXCollections.observableArrayList(
             "Cash", "Credit Card", "Debit Card", "Bank Transfer", "PayPal"
         ));
-        
-        productComboBox.setItems(FXCollections.observableArrayList(productService.getAllProducts()));
-        productComboBox.setCellFactory(param -> new ListCell<>() {
-            @Override
-            protected void updateItem(Product item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item.getName() + " (" + item.getSku() + ")");
-                }
-            }
-        });
-    }
-    
-    private void setupTable() {
-        productColumn.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(cellData.getValue().getProduct().getName()));
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        unitPriceColumn.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
-        totalPriceColumn.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
-        
-        setupActionsColumn();
-        
-        itemsTable.setItems(orderItems);
-    }
-    
-    private void setupActionsColumn() {
-        actionsColumn.setCellFactory(createActionButtonCellFactory());
-    }
-    
-    private Callback<TableColumn<OrderItem, Void>, TableCell<OrderItem, Void>> createActionButtonCellFactory() {
-        return param -> new TableCell<>() {
-            private final Button removeButton = new Button("Remove");
-            
-            {
-                removeButton.setOnAction(event -> {
-                    OrderItem item = getTableRow().getItem();
-                    if (item != null) {
-                        orderItems.remove(item);
-                        updateTotalAmount();
-                    }
-                });
-            }
-            
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : removeButton);
-            }
-        };
     }
     
     private void setupValidation() {
-        quantityField.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal.matches("\\d*")) {
-                quantityField.setText(newVal.replaceAll("[^\\d]", ""));
+        totalAmountField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.matches("\\d*(\\.\\d*)?")) {
+                totalAmountField.setText(newVal.replaceAll("[^\\d.]", ""));
             }
         });
     }
@@ -134,6 +64,7 @@ public class OrderDialogController extends BaseController {
     public void setOrder(Order order) {
         this.order = order;
         if (order != null) {
+            dialogTitle.setText("Edit Order");
             orderIdLabel.setText(order.getOrderId());
             orderDatePicker.setValue(order.getOrderDate().toLocalDate());
             statusComboBox.setValue(order.getStatus().name());
@@ -142,58 +73,24 @@ public class OrderDialogController extends BaseController {
             shippingAddressArea.setText(order.getShippingAddress());
             billingAddressArea.setText(order.getBillingAddress());
             notesArea.setText(order.getNotes());
-            
-            orderItems.setAll(order.getOrderItems());
-            updateTotalAmount();
+            totalAmountField.setText(String.valueOf(order.getTotalAmount()));
         } else {
+            dialogTitle.setText("New Order");
             orderIdLabel.setText("New Order");
             orderDatePicker.setValue(LocalDate.now());
             statusComboBox.setValue("Pending");
             paymentStatusComboBox.setValue("Pending");
-            orderItems.clear();
-            updateTotalAmount();
+            paymentMethodComboBox.setValue(null);
+            shippingAddressArea.clear();
+            billingAddressArea.clear();
+            notesArea.clear();
+            totalAmountField.clear();
         }
     }
     
     @FXML
     private void handleAddItem() {
-        Product product = productComboBox.getValue();
-        String quantityText = quantityField.getText();
-        
-        if (product == null || quantityText.isEmpty()) {
-            showError("Please select a product and enter quantity");
-            return;
-        }
-        
-        int quantity = Integer.parseInt(quantityText);
-        if (quantity <= 0) {
-            showError("Quantity must be greater than 0");
-            return;
-        }
-        
-        if (quantity > product.getQuantity()) {
-            showError("Insufficient stock available");
-            return;
-        }
-        
-        OrderItem item = new OrderItem();
-        item.setProduct(product);
-        item.setQuantity(quantity);
-        item.setUnitPrice(product.getPrice());
-        item.calculateTotal();
-        
-        orderItems.add(item);
-        updateTotalAmount();
-        
-        productComboBox.setValue(null);
-        quantityField.clear();
-    }
-    
-    private void updateTotalAmount() {
-        double total = orderItems.stream()
-            .mapToDouble(OrderItem::getTotalPrice)
-            .sum();
-        totalAmountLabel.setText(String.format("$%.2f", total));
+        showError("Adding order items directly is not supported in this admin view.");
     }
     
     protected void showError(String message) {
@@ -209,6 +106,10 @@ public class OrderDialogController extends BaseController {
             order = new Order();
         }
         
+        if (!"New Order".equals(orderIdLabel.getText())) {
+            order.setOrderId(orderIdLabel.getText());
+        }
+        
         order.setOrderDate(orderDatePicker.getValue().atStartOfDay());
         order.setStatus(OrderStatus.valueOf(statusComboBox.getValue()));
         order.setPaymentStatus(paymentStatusComboBox.getValue());
@@ -217,9 +118,12 @@ public class OrderDialogController extends BaseController {
         order.setBillingAddress(billingAddressArea.getText());
         order.setNotes(notesArea.getText());
         
-        order.getOrderItems().clear();
-        order.getOrderItems().addAll(orderItems);
-        order.calculateTotal();
+        try {
+            order.setTotalAmount(Double.parseDouble(totalAmountField.getText()));
+        } catch (NumberFormatException e) {
+            showError("Invalid Total Amount. Please enter a valid number.");
+            return null;
+        }
         
         return order;
     }
@@ -227,18 +131,18 @@ public class OrderDialogController extends BaseController {
     @FXML
     private void handleStatusChange() {
         String selectedStatus = statusComboBox.getValue();
-        if (selectedStatus != null) {
+        if (selectedStatus != null && order != null) {
             order.setStatus(OrderStatus.valueOf(selectedStatus));
         }
     }
     
     private void populateStatusComboBox() {
-        statusComboBox.getItems().addAll(
-            OrderStatus.PENDING.name(),
-            OrderStatus.PROCESSING.name(),
-            OrderStatus.SHIPPED.name(),
-            OrderStatus.DELIVERED.name(),
-            OrderStatus.CANCELLED.name()
-        );
+        // No longer needed as setupComboBoxes directly sets items from an array
+    }
+
+    @FXML
+    private void handleCancel() {
+        Stage stage = (Stage) orderIdLabel.getScene().getWindow();
+        stage.close();
     }
 } 

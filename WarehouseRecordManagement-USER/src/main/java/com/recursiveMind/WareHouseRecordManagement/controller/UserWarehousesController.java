@@ -1,7 +1,7 @@
 package com.recursiveMind.WareHouseRecordManagement.controller;
 
-import com.recursiveMind.WareHouseRecordManagement.model.Warehouse;
-import com.recursiveMind.WareHouseRecordManagement.service.WarehouseService;
+import com.recursiveMind.WareHouseRecordManagement.model.Product;
+import com.recursiveMind.WareHouseRecordManagement.service.ProductService;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
@@ -16,39 +16,41 @@ import java.util.List;
 public class UserWarehousesController {
     @FXML private FlowPane warehousesContainer;
     
-    @Autowired
-    private WarehouseService warehouseService;
+    // @Autowired
+    // private ProductService productService; // No longer directly used to load products here
     
     @FXML
     public void initialize() {
-        loadWarehouses();
+        loadAdminWarehouseCard();
     }
     
-    private void loadWarehouses() {
+    private void loadAdminWarehouseCard() {
         try {
-            List<Warehouse> warehouses = warehouseService.getAllWarehouses();
             warehousesContainer.getChildren().clear();
             
-            for (Warehouse warehouse : warehouses) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/views/warehouse-card.fxml"));
-                Parent card = loader.load();
-                
-                WarehouseCardController controller = loader.getController();
-                controller.setWarehouse(warehouse);
-                
-                warehousesContainer.getChildren().add(card);
-            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/views/warehouse-card.fxml"));
+            Parent card = loader.load();
+            
+            WarehouseCardController controller = loader.getController();
+            // We are no longer passing a Product object directly here,
+            // as this card represents the Admin Warehouse itself.
+            // The controller will need to be updated to handle this.
+            // For now, we might set a flag or specific text.
+            controller.setWarehouseName("Admin Warehouse"); 
+            
+            warehousesContainer.getChildren().add(card);
         } catch (IOException e) {
-            showAlert("Error", "Failed to load warehouse cards: " + e.getMessage(), Alert.AlertType.ERROR);
+            showAlert("Error", "Failed to load admin warehouse card: " + e.getMessage(), Alert.AlertType.ERROR);
         } catch (Exception e) {
-            showAlert("Error", "Failed to load warehouses: " + e.getMessage(), Alert.AlertType.ERROR);
+            showAlert("Error", "Failed to load admin warehouse card: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
     
-    @FXML
-    private void handleRefresh() {
-        loadWarehouses();
-    }
+    // The handleRefresh method might not be needed anymore or could be adapted
+    // @FXML
+    // private void handleRefresh() {
+    //     loadAdminWarehouseCard();
+    // }
     
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);

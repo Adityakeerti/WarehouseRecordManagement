@@ -22,14 +22,8 @@ public class Order {
     private String orderId;
     
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
-    
-    @Column(name = "warehouse_id", nullable = false)
-    private Long warehouseId;
-    
-    @Column(name = "warehouse_name", nullable = false)
-    private String warehouseName;
     
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
@@ -60,28 +54,58 @@ public class Order {
     @Transient
     private final DoubleProperty totalProperty = new SimpleDoubleProperty();
     
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public String getOrderId() { return orderId; }
+    public void setOrderId(String orderId) { 
+        this.orderId = orderId;
+        this.idProperty.set(orderId);
+    }
+    
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+    
+    public LocalDateTime getOrderDate() { return orderDate; }
+    public void setOrderDate(LocalDateTime orderDate) { 
+        this.orderDate = orderDate;
+        this.dateProperty.set(orderDate.toString());
+    }
+    
+    public OrderStatus getStatus() { return status; }
+    public void setStatus(OrderStatus status) { 
+        this.status = status;
+        this.statusProperty.set(status.getDisplayName());
+    }
+    
+    public Double getTotalAmount() { return totalAmount; }
+    public void setTotalAmount(Double totalAmount) { 
+        this.totalAmount = totalAmount;
+        this.totalProperty.set(totalAmount);
+    }
+    
+    public List<OrderItem> getOrderItems() { return orderItems; }
+    public void setOrderItems(List<OrderItem> orderItems) { this.orderItems = orderItems; }
+    
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    
+    // JavaFX Property getters
+    public StringProperty idProperty() { return idProperty; }
+    public StringProperty dateProperty() { return dateProperty; }
+    public StringProperty statusProperty() { return statusProperty; }
+    public DoubleProperty totalProperty() { return totalProperty; }
+    
     @PostLoad
     public void initializeProperties() {
         idProperty.set(orderId);
         dateProperty.set(orderDate.toString());
         statusProperty.set(status.getDisplayName());
         totalProperty.set(totalAmount);
-    }
-    
-    public StringProperty idProperty() {
-        return idProperty;
-    }
-    
-    public StringProperty dateProperty() {
-        return dateProperty;
-    }
-    
-    public StringProperty statusProperty() {
-        return statusProperty;
-    }
-    
-    public DoubleProperty totalProperty() {
-        return totalProperty;
     }
     
     @PrePersist

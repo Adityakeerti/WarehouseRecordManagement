@@ -1,1 +1,52 @@
- 
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.recursiveMind.WareHouseRecordManagement.controller.OrderDialogController"
+      spacing="10">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    
+    <Label fx:id="dialogTitle" text="New Order" styleClass="dialog-title"/>
+    
+    <GridPane hgap="10" vgap="10">
+        <Label text="Order ID:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label fx:id="orderIdLabel" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        
+        <Label text="Order Date:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <DatePicker fx:id="orderDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        
+        <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <ComboBox fx:id="statusComboBox" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        
+        <Label text="Payment Status:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <ComboBox fx:id="paymentStatusComboBox" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        
+        <Label text="Payment Method:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <ComboBox fx:id="paymentMethodComboBox" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+        <Label text="Total Amount:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <TextField fx:id="totalAmountField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    </GridPane>
+    
+    <TitledPane text="Addresses" expanded="true">
+        <VBox spacing="5">
+            <Label text="Shipping Address:"/>
+            <TextArea fx:id="shippingAddressArea" prefRowCount="3"/>
+            <Label text="Billing Address:"/>
+            <TextArea fx:id="billingAddressArea" prefRowCount="3"/>
+        </VBox>
+    </TitledPane>
+    
+    <Label text="Notes:"/>
+    <TextArea fx:id="notesArea" prefRowCount="2"/>
+    
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Button text="Cancel" onAction="#handleCancel" styleClass="secondary-button"/>
+        <Button text="Save Order" onAction="#handleSaveOrder" styleClass="primary-button"/>
+    </HBox>
+</VBox> 

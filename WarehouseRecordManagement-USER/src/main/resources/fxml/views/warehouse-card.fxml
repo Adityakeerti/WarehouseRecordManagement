@@ -1,1 +1,19 @@
- 
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.recursiveMind.WareHouseRecordManagement.controller.WarehouseCardController"
+      styleClass="warehouse-card" alignment="TOP_CENTER">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <Label fx:id="nameLabel" styleClass="warehouse-name"/>
+    <Label fx:id="locationLabel" styleClass="warehouse-category"/>
+    <Label fx:id="descriptionLabel" styleClass="warehouse-description"/>
+    <Label fx:id="statusLabel" styleClass="product-quantity"/>
+    <Button fx:id="viewProductsButton" text="Order Product" onAction="#handleViewProducts" styleClass="order-product-button"/>
+</VBox> 

@@ -9,7 +9,7 @@
       fx:controller="com.recursiveMind.WareHouseRecordManagement.controller.UserOrdersController"
       spacing="20">
     <padding>
-        <Insets all="20"/>
+        <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
     
     <Label text="My Orders" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>

@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
@@ -43,6 +44,7 @@ public class UserOrderDashboardController {
     @Autowired
     private ProductService productService;
     @Autowired
+    @Qualifier("userOrderService")
     private OrderService orderService;
 
     private ObservableList<Product> availableProducts;

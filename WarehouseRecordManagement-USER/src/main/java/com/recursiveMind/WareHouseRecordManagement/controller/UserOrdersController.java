@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
@@ -45,6 +46,7 @@ public class UserOrdersController {
     private Button refreshButton;
     
     @Autowired
+    @Qualifier("userOrderService")
     private OrderService orderService;
     
     private FilteredList<Order> filteredOrders;
@@ -64,7 +66,9 @@ public class UserOrdersController {
                 date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
             );
         });
-        warehouseColumn.setCellValueFactory(new PropertyValueFactory<>("warehouseName"));
+        warehouseColumn.setCellValueFactory(cellData -> 
+            new javafx.beans.property.SimpleStringProperty("Main Warehouse")
+        );
         statusColumn.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getStatus().toString())
         );

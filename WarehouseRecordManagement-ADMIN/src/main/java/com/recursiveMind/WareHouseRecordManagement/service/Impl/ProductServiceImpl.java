@@ -52,7 +52,6 @@ public class ProductServiceImpl implements ProductService {
                     .type(StockMovement.MovementType.ADJUST)
                     .quantity(saved.getQuantity() - oldQuantity)
                     .reference("Product Update")
-                    .performedBy(null) // Set user if required
                     .build();
                 System.out.println("StockMovement: " + movement);
                 stockMovementService.logMovement(movement);
@@ -69,7 +68,6 @@ public class ProductServiceImpl implements ProductService {
             .productCode(saved.getProductCode())
             .productName(saved.getName())
             .details(details)
-            .user(null) // Set user if available
             .build();
         activityLogRepository.save(log);
 
@@ -132,7 +130,6 @@ public class ProductServiceImpl implements ProductService {
                 .productCode(product.getProductCode())
                 .productName(product.getName())
                 .details("Product deleted")
-                .user(null) // Set user if available
                 .build();
             activityLogRepository.save(log);
         });

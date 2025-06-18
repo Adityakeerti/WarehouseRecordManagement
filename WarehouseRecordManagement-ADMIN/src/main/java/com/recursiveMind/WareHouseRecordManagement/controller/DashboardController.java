@@ -7,11 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import org.springframework.stereotype.Controller;
-import com.recursiveMind.WareHouseRecordManagement.model.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -35,8 +32,6 @@ public class DashboardController {
     @FXML
     private Label dateTimeLabel;
     
-    private User currentUser;
-    
     private ApplicationContext springContext;
     
     private static final String DASHBOARD_VIEW = "/fxml/views/dashboard-view.fxml";
@@ -44,20 +39,18 @@ public class DashboardController {
     private static final String ORDERS_VIEW = "/fxml/views/orders.fxml";
     private static final String SUPPLIERS_VIEW = "/fxml/views/suppliers.fxml";
     private static final String REPORTS_VIEW = "/fxml/views/reports.fxml";
-    
+
     @Autowired
     public DashboardController(ApplicationContext springContext) {
         this.springContext = springContext;
     }
     
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-        userNameLabel.setText(user.getFullName());
-        userRoleLabel.setText(user.getRole().toString());
-    }
-    
     @FXML
     public void initialize() {
+        // Set static admin user info
+        userNameLabel.setText("Admin User");
+        userRoleLabel.setText("Administrator");
+
         updateDateTime();
         showDashboard();
     }
@@ -111,13 +104,6 @@ public class DashboardController {
     }
     
     @FXML
-    public void showUsers() {
-        if (currentUser.getRole() == User.UserRole.ADMIN) {
-            loadView("/fxml/views/users-view.fxml");
-        }
-    }
-    
-    @FXML
     public void showProfile() {
         loadView("/fxml/views/profile-view.fxml");
     }
@@ -126,11 +112,5 @@ public class DashboardController {
     private void handleLogout() {
         // Implement logout logic here
         System.exit(0);
-    }
-    
-    private boolean isAdmin() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth != null && auth.getAuthorities().stream()
-            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 } 

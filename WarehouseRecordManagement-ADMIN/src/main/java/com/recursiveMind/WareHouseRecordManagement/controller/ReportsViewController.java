@@ -48,8 +48,7 @@ public class ReportsViewController {
         productCodeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductCode()));
         productNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductName()));
         detailsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDetails()));
-        userColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
-            cellData.getValue().getUser() != null ? cellData.getValue().getUser().getFullName() : ""));
+        userColumn.setCellValueFactory(cellData -> new SimpleStringProperty(""));
 
         loadLogs();
     }
@@ -88,7 +87,7 @@ public class ReportsViewController {
                 row.createCell(2).setCellValue(log.getProductCode());
                 row.createCell(3).setCellValue(log.getProductName());
                 row.createCell(4).setCellValue(log.getDetails());
-                row.createCell(5).setCellValue(log.getUser() != null ? log.getUser().getFullName() : "");
+                row.createCell(5).setCellValue("");
             }
             for (int i = 0; i < columns.length; i++) {
                 sheet.autoSizeColumn(i);

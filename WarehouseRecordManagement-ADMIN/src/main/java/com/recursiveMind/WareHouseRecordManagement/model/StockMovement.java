@@ -25,10 +25,6 @@ public class StockMovement {
     
     private String reference;  // Order number or other reference
     
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User performedBy;
-    
     private LocalDateTime movementDate;
     
     private String notes;

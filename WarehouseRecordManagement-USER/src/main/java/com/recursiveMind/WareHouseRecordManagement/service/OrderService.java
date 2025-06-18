@@ -14,7 +14,6 @@ public interface OrderService {
     Order updateOrder(Order order);
     void deleteOrder(Long id);
     List<Order> getOrdersByUserId(Long userId);
-    List<Order> getOrdersByWarehouseId(Long warehouseId);
     List<Order> getOrdersByStatus(OrderStatus status);
     List<Order> getOrdersByDateRange(LocalDateTime startDate, LocalDateTime endDate);
     Order getOrderByOrderId(String orderId);

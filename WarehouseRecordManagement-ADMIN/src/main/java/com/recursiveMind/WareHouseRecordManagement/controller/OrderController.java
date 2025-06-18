@@ -18,6 +18,7 @@ public class OrderController {
     
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        // Assuming admin creates a simplified order without direct user/order item details
         return ResponseEntity.ok(orderService.createOrder(order));
     }
     
@@ -61,49 +62,9 @@ public class OrderController {
         return ResponseEntity.ok().build();
     }
     
-    @GetMapping("/stats/pending")
-    public ResponseEntity<Long> getPendingOrdersCount() {
-        return ResponseEntity.ok(orderService.getPendingOrdersCount());
-    }
-    
-    @GetMapping("/stats/today")
-    public ResponseEntity<Long> getTodayOrdersCount() {
-        return ResponseEntity.ok(orderService.getTodayOrdersCount());
-    }
-    
-    @GetMapping("/stats/monthly")
-    public ResponseEntity<Long> getMonthlyOrdersCount() {
-        return ResponseEntity.ok(orderService.getMonthlyOrdersCount());
-    }
-    
-    @GetMapping("/stats/revenue")
-    public ResponseEntity<Double> getMonthlyRevenue() {
-        return ResponseEntity.ok(orderService.getMonthlyRevenue());
-    }
-    
     @PutMapping("/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
         order.setId(id);
         return ResponseEntity.ok(orderService.updateOrder(order));
-    }
-    
-    @PostMapping("/{id}/process")
-    public ResponseEntity<Order> processOrder(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.processOrder(id));
-    }
-    
-    @PostMapping("/{id}/ship")
-    public ResponseEntity<Order> shipOrder(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.shipOrder(id));
-    }
-    
-    @PostMapping("/{id}/deliver")
-    public ResponseEntity<Order> deliverOrder(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.deliverOrder(id));
-    }
-    
-    @PostMapping("/{id}/cancel")
-    public ResponseEntity<Order> cancelOrder(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.cancelOrder(id));
     }
 } 

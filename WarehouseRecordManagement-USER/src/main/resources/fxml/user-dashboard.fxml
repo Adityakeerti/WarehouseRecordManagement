@@ -15,6 +15,7 @@
             </padding>
             
             <Label fx:id="userNameLabel" styleClass="user-name"/>
+            <Button text="Refresh App" onAction="#handleRefreshApp" styleClass="refresh-button"/>
             <Label fx:id="dateTimeLabel" styleClass="date-time"/>
             
             <Separator/>

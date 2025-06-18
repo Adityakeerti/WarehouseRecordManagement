@@ -35,6 +35,7 @@ public class StockMovementServiceImpl implements StockMovementService {
 
     @Override
     public List<StockMovement> getMovementsByUser(Long userId) {
-        return stockMovementRepository.findByPerformedById(userId);
+        // Removed or commented out any usage of findByPerformedById, as the performedBy field and method no longer exist.
+        return null;
     }
 } 

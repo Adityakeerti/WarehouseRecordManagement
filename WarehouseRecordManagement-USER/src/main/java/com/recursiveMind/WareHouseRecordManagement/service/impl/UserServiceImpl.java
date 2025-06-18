@@ -1,7 +1,7 @@
 package com.recursiveMind.WareHouseRecordManagement.service.impl;
 
 import com.recursiveMind.WareHouseRecordManagement.model.User;
-import com.recursiveMind.WareHouseRecordManagement.repository.UserRepository;
+import com.recursiveMind.WareHouseRecordManagement.repository.user.UserRepository;
 import com.recursiveMind.WareHouseRecordManagement.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -7,10 +7,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import com.recursiveMind.WareHouseRecordManagement.model.User;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class},
+                       scanBasePackages = {"com.recursiveMind.WareHouseRecordManagement", "com.recursiveMind.WareHouseRecordManagement.service.Impl"})
 public class WarehouseUserApp extends Application {
     private static ConfigurableApplicationContext springContext;
     private static Stage primaryStage;

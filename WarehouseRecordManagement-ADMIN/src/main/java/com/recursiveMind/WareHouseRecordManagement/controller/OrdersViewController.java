@@ -34,7 +34,6 @@ public class OrdersViewController extends BaseController {
     @FXML private TableColumn<Order, LocalDateTime> dateColumn;
     @FXML private TableColumn<Order, String> statusColumn;
     @FXML private TableColumn<Order, Double> totalAmountColumn;
-    @FXML private TableColumn<Order, String> userColumn;
     @FXML private TableColumn<Order, String> paymentStatusColumn;
     @FXML private TableColumn<Order, Void> actionsColumn;
     @FXML private Label totalOrdersLabel;
@@ -57,8 +56,6 @@ public class OrdersViewController extends BaseController {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         totalAmountColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
-        userColumn.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(cellData.getValue().getUser().getUsername()));
         paymentStatusColumn.setCellValueFactory(new PropertyValueFactory<>("paymentStatus"));
         
         setupActionsColumn();
@@ -125,15 +122,14 @@ public class OrdersViewController extends BaseController {
         if (searchText == null || searchText.isEmpty()) {
             return true;
         }
-        return order.getOrderId().toLowerCase().contains(searchText.toLowerCase()) ||
-               order.getUser().getUsername().toLowerCase().contains(searchText.toLowerCase());
+        return order.getOrderId().toLowerCase().contains(searchText.toLowerCase());
     }
     
     private boolean matchesStatus(Order order, String status) {
         if (status == null || status.equals("All")) {
             return true;
         }
-        return order.getStatus().equals(status);
+        return order.getStatus().toString().equalsIgnoreCase(status);
     }
     
     private boolean matchesDateRange(Order order, LocalDate start, LocalDate end) {

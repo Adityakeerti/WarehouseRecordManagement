@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Rectangle?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.recursiveMind.WareHouseRecordManagement.controller.AdminWarehouseViewController"
+      spacing="20" padding="20">
+    
+    <Rectangle fx:id="adminWarehouseBox" 
+              width="200" 
+              height="100" 
+              arcWidth="10" 
+              arcHeight="10"
+              styleClass="admin-warehouse-box"
+              onMouseClicked="#showAdminProducts"/>
+    
+    <Label text="Admin Warehouse" 
+           alignment="CENTER"
+           styleClass="admin-warehouse-label"/>
+    
+    <TableView fx:id="productsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="productIdColumn" text="Product ID"/>
+            <TableColumn fx:id="productNameColumn" text="Product Name"/>
+            <TableColumn fx:id="quantityColumn" text="Quantity"/>
+            <TableColumn fx:id="priceColumn" text="Price"/>
+        </columns>
+    </TableView>
+</VBox> 

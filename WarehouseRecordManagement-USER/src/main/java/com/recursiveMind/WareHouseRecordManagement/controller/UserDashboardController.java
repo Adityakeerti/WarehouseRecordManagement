@@ -23,6 +23,8 @@ public class UserDashboardController {
     @FXML
     private StackPane contentArea;
     
+    private String currentViewFxmlPath;
+    
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     
     @FXML
@@ -32,10 +34,23 @@ public class UserDashboardController {
             userNameLabel.setText(currentUser.getFullName());
         }
         updateDateTime();
+        // Load the default dashboard view on startup
+        handleDashboard();
     }
     
     private void updateDateTime() {
         dateTimeLabel.setText(LocalDateTime.now().format(formatter));
+    }
+
+    @FXML
+    private void handleRefreshApp() {
+        if (currentViewFxmlPath != null && !currentViewFxmlPath.isEmpty()) {
+            loadView(currentViewFxmlPath);
+        } else {
+            System.err.println("No current view to refresh.");
+            // Optionally, load a default view if nothing is loaded
+            handleDashboard();
+        }
     }
     
     @FXML
@@ -62,6 +77,7 @@ public class UserDashboardController {
     private void loadView(String fxmlPath) {
         try {
             System.out.println("Attempting to load FXML: " + fxmlPath);
+            this.currentViewFxmlPath = fxmlPath; // Store the current view path
             FXMLLoader loader = new FXMLLoader(WarehouseUserApp.class.getResource(fxmlPath));
             loader.setControllerFactory(WarehouseUserApp.getSpringContext()::getBean);
             if (loader.getLocation() == null) {

@@ -1,6 +1,5 @@
 package com.recursiveMind.WareHouseRecordManagement.controller;
 
-import com.recursiveMind.WareHouseRecordManagement.model.Warehouse;
 import com.recursiveMind.WareHouseRecordManagement.model.Product;
 import com.recursiveMind.WareHouseRecordManagement.service.ProductService;
 import javafx.fxml.FXML;
@@ -13,6 +12,10 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
+import com.recursiveMind.WareHouseRecordManagement.WarehouseUserApp;
 
 @Controller
 public class WarehouseProductsController {
@@ -27,15 +30,7 @@ public class WarehouseProductsController {
     @Autowired
     private ProductService productService;
     
-    private Warehouse warehouse;
     private Map<Product, Integer> selectedProducts = new HashMap<>();
-    
-    public void setWarehouse(Warehouse warehouse) {
-        this.warehouse = warehouse;
-        warehouseNameLabel.setText(warehouse.getName());
-        setupTable();
-        loadProducts();
-    }
     
     private void setupTable() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -61,7 +56,7 @@ public class WarehouseProductsController {
     
     private void loadProducts() {
         try {
-            List<Product> products = productService.getAvailableProductsByWarehouse(warehouse.getId());
+            List<Product> products = productService.getAvailableProducts();
             productsTable.setItems(FXCollections.observableArrayList(products));
             updateTotalAmount();
         } catch (Exception e) {
@@ -114,9 +109,23 @@ public class WarehouseProductsController {
             showAlert("No Products Selected", "Please add products to your order", Alert.AlertType.WARNING);
             return;
         }
-        
-        // TODO: Implement order placement logic
-        showAlert("Order Placement", "Order placement functionality will be implemented here", Alert.AlertType.INFORMATION);
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogs/user-order-dialog.fxml"));
+            fxmlLoader.setControllerFactory(WarehouseUserApp.getSpringContext()::getBean);
+            Parent parent = fxmlLoader.load();
+            UserOrderDialogController controller = fxmlLoader.getController();
+            controller.initData(selectedProducts);
+            Stage stage = new Stage();
+            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage.setTitle("Place New Order");
+            stage.setScene(new javafx.scene.Scene(parent));
+            stage.showAndWait();
+            selectedProducts.clear();
+            loadProducts();
+        } catch (Exception e) {
+            showAlert("Order Placement Error", "Failed to open order dialog: " + e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
     }
     
     private void showAlert(String title, String message, Alert.AlertType type) {
